@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = new sqlite3.Database("./gg.db", (err) => {
+const db = new sqlite3.Database("../gg.db", (err) => {
   if (err) {
     console.error(err.message);
   } else {

@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.use((0, cors_1.default)());
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
-const db = new sqlite3_1.default.Database("./gg.db", (err) => {
+const db = new sqlite3_1.default.Database("../gg.db", (err) => {
     if (err) {
         console.error(err.message);
     }
