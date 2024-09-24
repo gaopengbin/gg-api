@@ -6,8 +6,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const sqlite3_1 = __importDefault(require("sqlite3"));
+const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 const db = new sqlite3_1.default.Database("./gg.db", (err) => {
     if (err) {
         console.error(err.message);
@@ -18,6 +21,32 @@ const db = new sqlite3_1.default.Database("./gg.db", (err) => {
 });
 app.get("/", (req, res) => {
     res.send("Hello, TypeScript and Express阿帆反反复复66666!");
+});
+app.post("/plan", (req, res) => {
+    const plan = req.body;
+    console.log(plan);
+    const sql = `INSERT INTO plan (title, cover, description, content) VALUES ('${plan.title}', '${plan.cover}', '${plan.description}', '${plan.content}')`;
+    db.run(sql, (err) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("添加失败");
+        }
+        else {
+            res.status(200).send("添加成功");
+        }
+    });
+});
+app.get("/plan", (req, res) => {
+    const sql = "SELECT * FROM plan";
+    db.all(sql, (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("查询失败");
+        }
+        else {
+            res.status(200).send(rows);
+        }
+    });
 });
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
