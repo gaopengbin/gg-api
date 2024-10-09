@@ -8,6 +8,7 @@ import { registerPlan } from "./plan";
 import { registerPerson } from "./person";
 import fs from 'fs'
 import https from 'https'
+import { registerBook } from "./book";
 
 const app = express();
 const privateKey = fs.readFileSync(__dirname + './bin/www.laogao.xyz.key', 'utf8')
@@ -37,7 +38,7 @@ app.get("/", (req, res) => {
 
 registerPlan(db, app);
 registerPerson(db, app);
-
+registerBook(db, app);
 
 httpsServer.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
