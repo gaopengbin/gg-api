@@ -6,8 +6,17 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { registerPlan } from "./plan";
 import { registerPerson } from "./person";
+import fs from 'fs'
+import https from 'https'
 
 const app = express();
+const privateKey = fs.readFileSync(__dirname + './bin/www.laogao.xyz.key', 'utf8')
+const certificate = fs.readFileSync(__dirname + './bin/www.laogao.xyz.pem', 'utf8')
+const httpsServer = https.createServer({
+  key: privateKey,
+  cert: certificate
+}, app)
+
 const PORT = process.env.PORT || 3000;
 app.use(cors());
 
@@ -30,6 +39,6 @@ registerPlan(db, app);
 registerPerson(db, app);
 
 
-app.listen(PORT, () => {
+httpsServer.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
