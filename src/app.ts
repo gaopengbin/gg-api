@@ -6,6 +6,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import { registerPlan } from "./plan";
 import { registerPerson } from "./person";
+import { registerBook } from "./book";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,7 +29,7 @@ app.get("/", (req, res) => {
 
 registerPlan(db, app);
 registerPerson(db, app);
-
+registerBook(db, app);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
